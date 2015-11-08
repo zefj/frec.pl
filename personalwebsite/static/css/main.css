@@ -94,54 +94,73 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
+/*s*/
 body {
   padding-top: 51px;  
+  overflow-x: hidden;
+  height: 100%;
 }
+
 .text-center {
   padding-top: 20px;
 }
-.col-xs-12 {
+
+.col-sm-9 {
+  margin-left: 250px;
   background-color: #fff;
 }
+
 #sidebar {
+  position: fixed;
+  width: 250px;
   height: 100%;
   padding-right: 0;
+  padding-left: 0;
   padding-top: 20px;
 }
-#sidebar .nav {
-  width: 95%;
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1200px;
+  }
 }
-
-
-
 
 /* collapsed sidebar styles */
 @media screen and (max-width: 767px) {
+
+  .col-sm-9 {
+    margin-left: 0px;
+    height: 100%;
+    background-color: #fff;
+  }
+
   .row-offcanvas {
     position: relative;
     -webkit-transition: all 0.25s ease-out;
     -moz-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;
+    padding-top: 20px;
   }
 
   .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -41.6%;
-    top: 2%;
-  }
-
-  .row-offcanvas-left.active {
-    left: 41.6%;
-
-  }
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-    width: 41.6%;
-  }
   #sidebar {
-    padding-top:0;
+    left: -250px;
+  }
+
+  .row-offcanvas-left.active
+  .col-sm-9 {
+    left: 250px;
+    height: 100%;
+  }
+
+  .row-offcanvas-left.active
+  #sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    left: 0px;
+    
+    padding-top: 20px;
   }
 }
 
@@ -149,8 +168,8 @@ body {
 .profile-userpic img {
   float: none;
   margin: 0 auto;
-  width: 50%;
-  height: 50%;
+  width: 60%;
+  height: 100%;
   -webkit-border-radius: 50% !important;
   -moz-border-radius: 50% !important;
   border-radius: 50% !important;
@@ -177,7 +196,9 @@ body {
 }
 
 .profile-usermenu {
+  height: 50%;
   margin-top: 30px;
+  overflow-y: auto;
 }
 
 .profile-usermenu ul li {
@@ -215,6 +236,14 @@ body {
   margin-left: -2px;
 }
 
+.right-align {
+  float: right;
+}
+
+.input-group {
+  width: 235px;
+  padding-right: 12px;
+}
 
 /* ==========================================================================
    Helper classes

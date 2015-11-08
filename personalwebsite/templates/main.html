@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
         <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
         <link rel="shortcut-icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
@@ -17,7 +17,10 @@
 
         <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
-        
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">        
+        {% block page_stylesheets %}
+        {% endblock %}
+
         <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
     </head>
     <body>
@@ -26,7 +29,7 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        {% block content %}
+        {% block static_content %}
 
         {% endblock %}
 

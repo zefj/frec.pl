@@ -41,7 +41,8 @@ PREREQ_APPS = [
 ]
 
 PROJECT_APPS = [    
-    'mainsite'
+    'mainsite',
+    'ckeditor'
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS

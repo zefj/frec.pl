@@ -18,5 +18,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'mainsite.views.home', name='home'),
+    url(r'^$', 'mainsite.views.blog', name='blog'),
+    url(r'^blog/(?P<post_name_slug>[\w\-]+)/$', 'mainsite.views.post', name='post'),
+    url(r'^about/$', 'mainsite.views.about', name='about'),
+    url(r'^search/$', 'mainsite.views.search', name='search'),
 ]
