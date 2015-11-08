@@ -13,8 +13,9 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
+from django.conf.urls import include, url, patterns
 from django.contrib import admin
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -22,4 +23,12 @@ urlpatterns = [
     url(r'^blog/(?P<post_name_slug>[\w\-]+)/$', 'mainsite.views.post', name='post'),
     url(r'^about/$', 'mainsite.views.about', name='about'),
     url(r'^search/$', 'mainsite.views.search', name='search'),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
+
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT}))

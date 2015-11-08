@@ -12,3 +12,11 @@ $(function() {
           $(this).addClass("active");
      })
 });
+
+hljs.configure({useBR: true});
+
+$(document).ready(function() {
+  $('p code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+});
