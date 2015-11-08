@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block page_stylesheets %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+
+{% block page_content %}
+<div class="blog-content-wrapper">
+<div class="blog-post">
+<h2 class="blog-post-title">
+{{ post.title }}</h2>
+<p class="blog-post-meta">Published on: {{ post.pub_date }}<br>
+Tags: {{ post.get_tags }}</p><hr>
+{{ post.text|safe }}<br><hr><br>
+</div>
+{% endblock %}
