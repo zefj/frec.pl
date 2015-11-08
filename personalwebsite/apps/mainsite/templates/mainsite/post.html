@@ -6,11 +6,12 @@
 {% endblock %}
 
 {% block page_content %}
+<div class="blog-content-wrapper">
 <div class="blog-post">
 <h2 class="blog-post-title">
-{{ post.title }}</h1>
+{{ post.title }}</h2>
 <p class="blog-post-meta">Published on: {{ post.pub_date }}<br>
 Tags: {{ post.get_tags }}</p><hr>
 {{ post.text|safe }}<br><hr><br>
-
+</div>
 {% endblock %}
