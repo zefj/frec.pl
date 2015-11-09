@@ -36,6 +36,15 @@ class Post(models.Model):
 
         super(Post, self).save(*args, **kwargs)
 
+class CVManager(models.Manager):
+
+    def get_object_or_none(self, *args, **kwargs):
+        try: 
+            return CV.objects.get(**kwargs)
+        except:
+            return None
+
+
 class CV(models.Model):
     POLISH = 'PL'
     ENGLISH = 'EN'
@@ -48,6 +57,47 @@ class CV(models.Model):
     language = models.CharField('Language', max_length = 7, choices = CV_CHOICES)
     cv = models.FileField()
     upload_date = models.DateField(auto_now=True)
+    objects = CVManager()
 
     def __unicode__(self):
         return self.language
+
+    class Meta:
+        verbose_name_plural = "CVs"          
+
+class SingletonModel(models.Model):
+    """Singleton Django Model
+    Ensures there's always only one entry in the database, and can fix the
+    table (by deleting extra entries) even if added via another mechanism.
+    Also has a static load() method which always returns the object - from
+    the database if possible, or a new empty (default) instance if the
+    database is still empty. If your instance has sane defaults (recommended),
+    you can use it immediately without worrying if it was saved to the
+    database or not.
+
+    Useful for things like system-wide user-editable settings.
+
+    Source: https://gist.github.com/senko/5028413
+    """
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        """
+        Save object to the database. Removes all other entries if there
+        are any.
+        """
+        self.__class__.objects.exclude(id=self.id).delete()
+        super(SingletonModel, self).save(*args, **kwargs)
+
+
+class About(SingletonModel):
+    
+    text = RichTextUploadingField()
+
+    def __unicode__(self):
+        return 'About text'
+
+    class Meta:
+        verbose_name_plural = "About"   

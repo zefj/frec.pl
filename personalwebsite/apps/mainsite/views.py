@@ -2,7 +2,7 @@
 from django.shortcuts import render_to_response, render, get_object_or_404
 from django.shortcuts import RequestContext
 
-from mainsite.models import Post
+from mainsite.models import Post, About, CV
 from mainsite.utils import get_query
 
 def blog(request, template_name='mainsite/blog.html'):
@@ -22,7 +22,14 @@ def post(request, template_name='mainsite/post.html', post_name_slug=None):
 
 def about(request, template_name='mainsite/about.html'):
 
-	return render_to_response(template_name, RequestContext(request, {}))
+	about_text = About.objects.all()
+	
+	cv_pl = CV.objects.get_object_or_none(language='PL')
+	cv_en = CV.objects.get_object_or_none(language='EN')
+	
+	context_dict = {'about_text': about_text, 'cv_pl': cv_pl, 'cv_en': cv_en}
+
+	return render(request, template_name, context_dict)
 
 def search(request, template_name='mainsite/search_results.html'):
 

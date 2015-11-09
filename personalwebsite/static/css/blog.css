@@ -3,8 +3,8 @@
  */
 
 .blog-content-wrapper {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: #555;
+  
+  color: #333;
 }
 
 h1, .h1,
@@ -89,6 +89,7 @@ h6, .h6 {
   font-size: 60px;
   font-weight: normal;
 }
+
 .blog-description {
   font-size: 20px;
   color: #999;
@@ -144,16 +145,16 @@ h6, .h6 {
 .blog-post-title {
   margin-bottom: 5px;
   font-size: 40px;
-  color: #5d7822;
+  color: #333;
 }
 
 .blog-post-title a {
-  color: #5d7822;
+  color: #333;
 }
 
 .blog-post-meta {
   margin-bottom: 20px;
-  color: #99b792;
+  color: #797979;
 }
 
 

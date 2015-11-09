@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from mainsite.models import Tag, Post, CV
+from mainsite.models import Tag, Post, CV, About
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -18,3 +18,4 @@ class CVAdmin(admin.ModelAdmin):
 	list_display_links = (('language', 'upload_date'))
 
 admin.site.register(Tag)
+admin.site.register(About)

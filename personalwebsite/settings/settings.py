@@ -91,7 +91,7 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'YouCustomToolbarConfig',  
         'tabSpaces': 0,
         'fillEmptyBlocks': 'false',
-
+        'protectedSource': '(/<i[^>]*><\/i>/g);',
         'extraPlugins': ','.join(
             [
             
