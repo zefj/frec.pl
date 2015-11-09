@@ -31,10 +31,23 @@ class Post(models.Model):
         if str(self.pub_date) > now.strftime("%Y-%m-%d"):
             self.visible = False
 
-
         if not self.id:
             self.slug = slugify(self.title)
 
-
-
         super(Post, self).save(*args, **kwargs)
+
+class CV(models.Model):
+    POLISH = 'PL'
+    ENGLISH = 'EN'
+
+    CV_CHOICES = (
+        (POLISH, 'Polish'),
+        (ENGLISH, 'English'),
+    )
+
+    language = models.CharField('Language', max_length = 7, choices = CV_CHOICES)
+    cv = models.FileField()
+    upload_date = models.DateField(auto_now=True)
+
+    def __unicode__(self):
+        return self.language

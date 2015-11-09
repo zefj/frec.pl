@@ -26,6 +26,12 @@ def about(request, template_name='mainsite/about.html'):
 
 def search(request, template_name='mainsite/search_results.html'):
 
+	""" TODO:
+
+	wyswietlanie wynikow wyszukiwania w tagach i postach osobno
+
+	"""
+
 	query_string = ''
 	found_entries = None
 	if 'q' in request.GET and request.GET['q'].strip() and request.GET['q'] != '':
