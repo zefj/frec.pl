@@ -23,6 +23,9 @@ class Post(models.Model):
     def get_tags(self):
         return ", ".join([t.name for t in self.tags.all()])
 
+    def get_tags_list(self):
+        return [t.name for t in self.tags.all()]       
+
     def save(self, *args, **kwargs):
         import datetime
 

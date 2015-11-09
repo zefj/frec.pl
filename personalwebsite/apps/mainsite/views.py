@@ -4,7 +4,7 @@ from django.shortcuts import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 
-from mainsite.models import Post, About, CV
+from mainsite.models import Post, About, CV, Tag
 from mainsite.utils import get_query
 
 def paginator(model_objects, page_number):
@@ -24,9 +24,16 @@ def paginator(model_objects, page_number):
 
 def blog(request, template_name='mainsite/blog.html'):
 
-    paginated_posts = paginator(Post.objects.exclude(pub_date__isnull=True).order_by('-pub_date'), request.GET.get('page'))
+    if request.GET.get('filter'):
+        filter_tag = request.GET.get('filter')
+        paginated_posts = paginator(Post.objects.filter(tags__name=filter_tag).exclude(pub_date__isnull=True).order_by('-pub_date'), request.GET.get('page'))
+    else:
+        filter_tag = None
+        paginated_posts = paginator(Post.objects.exclude(pub_date__isnull=True).order_by('-pub_date'), request.GET.get('page'))
 
-    context_dict = {'posts': paginated_posts}
+    available_tags = [tag.name for tag in Tag.objects.all()]
+
+    context_dict = {'posts': paginated_posts, 'filter_tag': filter_tag, 'available_tags': available_tags}
 
     return render(request, template_name, context_dict)
 
@@ -63,17 +70,18 @@ def search(request, template_name='mainsite/search_results.html'):
     if 'q' in request.GET and request.GET['q'].strip() and request.GET['q'] != '':
         query_string = request.GET['q']
         
-        entry_query = get_query(query_string, ['title', 'text', 'tags__name'])
+        entry_post_query = get_query(query_string, ['title', 'text', 'tags__name'])
+        entry_tags_query = get_query(query_string, ['name'])
 
-        
+        found_post_entries = Post.objects.filter(entry_post_query).distinct()
+        found_tags_entries = Tag.objects.filter(entry_tags_query).distinct()
 
-        found_entries = Post.objects.filter(entry_query).distinct()
-        
-        paginated_found_entries = paginator(found_entries, request.GET.get('page'))
+        paginated_found_post_entries = paginator(found_post_entries, request.GET.get('page'))
 
         return render_to_response(template_name,
                                   {'query_string': query_string,
-                                      'search_results': paginated_found_entries},
+                                      'search_post_results': paginated_found_post_entries,
+                                      'search_tag_results': found_tags_entries},
                                   context_instance=RequestContext(request))
 
     else:

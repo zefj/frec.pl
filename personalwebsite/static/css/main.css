@@ -273,6 +273,22 @@ body {
 .btn.btn-default:hover{
   background-color: #f9fdf0;
 }
+
+.results-label {
+  font-size: 50px;
+  color: #5d7822;
+}
+
+.btn-custom {
+  color: #f9fdf0;
+  background-color: #5d7822;
+}
+
+.btn-custom:hover {
+  color: #f9fdf0;
+  background-color: #5d7822;
+}
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
