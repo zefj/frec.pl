@@ -29,4 +29,33 @@
 	<h1>Nothing to see here</h1>
 {% endif %}
 
+{% if posts.has_other_pages %}
+	{% load url_replace %}
+	<nav>
+	    <ul class="pagination">
+	    {% if posts.has_previous %}
+	        <li>
+	            <a href="?{% url_replace request 'page' posts.previous_page_number %}" aria-label="Previous">
+	                <span aria-hidden="true">&laquo;</span>
+	            </a>
+	        </li>
+	    {% endif %}
+	    {% for page_num in posts.paginator.page_range %}
+	        {% if posts.number == page_num %}
+	            <li class="active"><a href="?{% url_replace request 'page' page_num %}">{{ page_num }}</a></li>
+	        {% else %}
+	            <li><a href="?{% url_replace request 'page' page_num %}">{{ page_num }}</a></li>
+	        {% endif %}
+	    {% endfor %}
+	    {% if posts.has_next %}
+		    <li>
+		      <a href="?{% url_replace request 'page' posts.next_page_number %}" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+	    {% endif %}
+	  </ul>
+	</nav>
+{% endif %}
+
 {% endblock %}

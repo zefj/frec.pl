@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 PREREQ_APPS = [
@@ -100,6 +99,7 @@ CKEDITOR_CONFIGS = {
     }
 }
 
+ELEMENTS_PER_PAGE = 5
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

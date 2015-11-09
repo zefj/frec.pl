@@ -11,11 +11,11 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField('Title', max_length = 128)
-    pub_date = models.DateField(blank = True, verbose_name="Publication date") # blank tru, do sprobowania: jesli bez daty, to nie publiszt
+    pub_date = models.DateField(blank = True, null = True, verbose_name="Publication date") 
     text = RichTextUploadingField()
     tags = models.ManyToManyField(Tag)
     slug = models.SlugField()
-    visible = models.BooleanField('Published', default = True)
+    
 
     def __unicode__(self):
         return self.title
