@@ -50,6 +50,8 @@ INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
+CKEDITOR_BROWSE_SHOW_DIRS = False
+
 CKEDITOR_CONFIGS = {
     'default': {
         'skin': 'moono',

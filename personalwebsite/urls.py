@@ -17,12 +17,18 @@ from django.conf.urls import include, url, patterns
 from django.contrib import admin
 from django.conf import settings
 
+#from django.contrib.admin.views.decorators import staff_member_required
+#from django.views.decorators.cache import never_cache
+
+#from mainsite import views
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'mainsite.views.blog', name='blog'),
     url(r'^blog/(?P<post_name_slug>[\w\-]+)/$', 'mainsite.views.post', name='post'),
     url(r'^about/$', 'mainsite.views.about', name='about'),
     url(r'^search/$', 'mainsite.views.search', name='search'),
+    #url(r'^ckeditor/browse/', never_cache(staff_member_required(views.browse)), name='ckeditor_browse'),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
 

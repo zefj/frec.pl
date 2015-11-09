@@ -54,4 +54,3 @@ def search(request, template_name='mainsite/search_results.html'):
 	    return render_to_response(template_name,
 	                              {'query_string': query_string},
 	                              context_instance=RequestContext(request))
-
