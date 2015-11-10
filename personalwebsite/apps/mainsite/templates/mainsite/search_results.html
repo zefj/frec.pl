@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block page_stylesheets %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+
+{% block page_content %}
+
+<div class="blog-header">
+{% if search_tag_results %}
+	<div class="results-label">
+
+
+	<b>Found tags:</b>
+	</div>
+	<form action="{% url 'blog' %}" method="get">
+	{% for tag in search_tag_results %}
+		<input type="submit" class="btn btn-xs btn-default" align="left" id="{{ tag }}" name="filter" value="{{ tag }}" />
+	{% endfor %}
+	</form>
+	<hr>
+{% endif %}
+</div>
+{% if search_post_results %}
+	<div class="results-label">
+
+	<b>Found posts:</b>
+	</div>
+	{% for post in search_post_results %}
+	<div class="blog-content-wrapper">
+		<div class="blog-post">
+			<h2 class="blog-post-title">
+			<a href="{% url 'post' post.slug %}">{{ post.title }}</a></h2>
+			<div class="blog-post-meta">Published on: {{ post.pub_date }}
+			
+			<form action="{% url 'blog' %}" method="get">
+			Tags: 
+				{% for tag in post.get_tags_list %}
+					{% if filter_tag == tag %}
+					<input type="submit" class="btn btn-xs btn-custom" align="left" id="{{ tag }}" name="filter" value="{{ tag }}" />
+					{% else %}
+					<input type="submit" class="btn btn-xs btn-default" align="left" id="{{ tag }}" name="filter" value="{{ tag }}" />
+					{% endif %}
+				{% endfor %}
+			</form>			
+			</div>
+			<hr>
+			{{ post.text|truncatewords:300|safe }}<br>
+			
+			<div class="right-align">
+			<button class="btn btn-xs btn-default" align="right" onClick="location.href='{% url 'post' post.slug %}'">Read on...</button>
+			</div>
+			<br>
+		</div>
+	</div>
+	{% endfor %}
+
+	
+{% if search_post_results.has_other_pages %}
+	{% load url_replace %}
+	<nav>
+	    <ul class="pagination">
+	    {% if search_post_results.has_previous %}
+	        <li>
+	            <a href="?{% url_replace request 'page' search_post_results.previous_page_number %}" aria-label="Previous">
+	                <span aria-hidden="true">&laquo;</span>
+	            </a>
+	        </li>
+	    {% endif %}
+	    {% for page_num in search_post_results.paginator.page_range %}
+	        {% if search_post_results.number == page_num %}
+	            <li class="active"><a href="?{% url_replace request 'page' page_num %}">{{ page_num }}</a></li>
+	        {% else %}
+	            <li><a href="?{% url_replace request 'page' page_num %}">{{ page_num }}</a></li>
+	        {% endif %}
+	    {% endfor %}
+	    {% if search_post_results.has_next %}
+		    <li>
+		      <a href="?{% url_replace request 'page' search_post_results.next_page_number %}" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+	    {% endif %}
+	  </ul>
+	</nav>
+{% endif %}
+
+
+{% else %}
+	<h1>Nothing to see here</h1>
+{% endif %}
+
+
+
+{% endblock %}

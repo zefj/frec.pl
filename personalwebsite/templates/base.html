@@ -1,0 +1,91 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+
+{% block title %}
+hi
+{% endblock %}
+
+{% block static_content %}
+<div class="page-container">
+  
+	<!-- top navbar -->
+    <div class="navbar navbar-default navbar-fixed-top visible-xs">
+       <div class="container">
+    	<div class="navbar-header">
+           <button type="button" class="navbar-toggle" data-toggle="offcanvas">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+           </button>
+           <a class="navbar-brand" href="#">Stuff</a>
+    	</div>
+       </div>
+    </div>
+      
+    <div class="container">
+      <div class="row row-offcanvas row-offcanvas-left">
+        
+        <!-- sidebar -->
+        <div class="sidebar-wrapper">
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+        	
+    		<div class="profile-userpic">
+				<img src="{% static 'img/picture.png' %}" class="img-responsive" alt="">
+			</div>
+			<!-- END SIDEBAR USERPIC -->
+			<!-- SIDEBAR USER TITLE -->
+			<div class="profile-usertitle">
+				<div class="profile-usertitle-name">
+					Filip Rec
+				</div>
+				<div class="profile-usertitle-job">
+					Python / Django Developer
+				</div>
+			</div>
+
+        	<div class="profile-usermenu">
+	            <ul class="nav">
+	              <li><a href="{% url 'blog' %}">Blog</a></li>
+                
+	              <li><a href="#">Projects</a></li>
+	              <li><a href="{% url 'about' %}">About</a></li>
+	            </ul>
+              <br>
+              <form class="form-search" method="get" action="{% url 'search' %}">
+              <div class="search-wrapper">
+<div class="col-lg-6">
+    <div class="input-group">
+      <input type="text" name="q" id="id_q" class="form-control" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit">Go!</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  </div>
+              </form>
+
+
+
+        	</div>
+<div class="profile-usericons" align="center">
+<a href="https://www.linkedin.com/in/FilipRec"><i class="fa fa-linkedin fa-2x"></i></a>
+<a href="https://github.com/zefj"><i class="fa fa-github fa-2x"></i></a>
+<a href="https://www.facebook.com/naamioni"><i class="fa fa-facebook fa-2x"></i></a>
+
+
+    </div>
+
+
+  		</div>
+      </div>
+        <!-- main area -->
+        <div class="col-xs-12 col-sm-9">
+          {% block page_content %}
+
+          {% endblock %}
+        </div><!-- /.col-xs-12 main -->
+    </div><!--/.row-->
+  </div><!--/.container-->
+</div><!--/.page-container-->
+
+{% endblock %}
