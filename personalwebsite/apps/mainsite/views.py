@@ -4,7 +4,7 @@ from django.shortcuts import RequestContext
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 
-from mainsite.models import Post, About, CV, Tag
+from mainsite.models import Post, About, CV, Tag, Project
 from mainsite.utils import get_query
 
 def paginator(model_objects, page_number):
@@ -53,6 +53,23 @@ def about(request, template_name='mainsite/about.html'):
     
     context_dict = {'about_text': about_text, 'cv_pl': cv_pl, 'cv_en': cv_en}
 
+    return render(request, template_name, context_dict)
+
+def projects(request, template_name='mainsite/projects.html'):
+
+    projects = Project.objects.all()
+
+    print projects
+
+    for project in projects:
+        p_obj = Project.objects.get(title=project)
+        print p_obj.related_posts.all()
+        project.related_posts = p_obj.related_posts.all()
+
+        print project
+
+    context_dict = {'projects': Project.objects.all()}
+    
     return render(request, template_name, context_dict)
 
 def search(request, template_name='mainsite/search_results.html'):

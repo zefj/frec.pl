@@ -1,30 +1,29 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block page_stylesheets %}
-<link rel="stylesheet" href="{% static 'css/blog.css' %}">
-
-{% endblock %}
 {% block title %}
 {{ post.title }}
 {% endblock %}
+
 {% block page_content %}
 	<div class="blog-content-wrapper">
 		<div class="blog-post">
-			<h2 class="blog-post-title">
-			{{ post.title }}</h2>
-			<div class="blog-post-meta">Published on: {{ post.pub_date }}
+			<h2 class="blog-post-title">{{ post.title }}</h2>
+			<div class="blog-post-meta">
+				<span class="fa fa-clock-o fa-lg" aria-hidden="true"></span> {{ post.pub_date }}
 			
-			<form action="{% url 'blog' %}" method="get">
-			Tags: 
-				{% for tag in post.get_tags_list %}
-					<input type="submit" class="btn btn-xs btn-default" align="left" id="{{ tag }}" name="filter" value="{{ tag }}" />
-				{% endfor %}
-			</form>			
-			</div><hr>
-{{ post.text|safe }}<br><hr><br>
-</div>
-
+				<form action="{% url 'blog' %}" method="get">
+					<span class="fa fa-slack fa-lg" aria-hidden="true"></span>
+						{% for tag in post.get_tags_list %}
+							<input type="submit" class="btn btn-xs btn-default" align="left" id="{{ tag }}" name="filter" value="{{ tag }}" />
+						{% endfor %}
+				</form>		
+			</div>
+			<hr>
+		{{ post.text|safe }}
+		<br><hr><br>
+		</div>
+	</div>
 <div id="disqus_thread"></div>
 <script>
 /**

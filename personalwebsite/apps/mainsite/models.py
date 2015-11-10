@@ -9,13 +9,22 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+class Project(models.Model):
+
+    title = models.CharField('Title', max_length = 128)
+    text = models.TextField()
+    github = models.URLField(blank = True)
+
+    def __unicode__(self):
+        return self.title    
+
 class Post(models.Model):
     title = models.CharField('Title', max_length = 128)
     pub_date = models.DateField(blank = True, null = True, verbose_name="Publication date") 
     text = RichTextUploadingField()
     tags = models.ManyToManyField(Tag)
     slug = models.SlugField()
-    
+    project_relation = models.ForeignKey(Project, null = True, verbose_name='Related to project', related_name='related_posts')
 
     def __unicode__(self):
         return self.title
@@ -104,3 +113,4 @@ class About(SingletonModel):
 
     class Meta:
         verbose_name_plural = "About"   
+

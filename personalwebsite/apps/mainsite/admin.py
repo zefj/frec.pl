@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from mainsite.models import Tag, Post, CV, About
+from mainsite.models import Tag, Post, CV, About, Project
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -19,3 +19,4 @@ class CVAdmin(admin.ModelAdmin):
 
 admin.site.register(Tag)
 admin.site.register(About)
+admin.site.register(Project)

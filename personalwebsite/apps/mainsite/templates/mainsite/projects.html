@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+<div class="container-fluid" id="projects">
+	<div class="row">
+
+{% for project in projects %}
+		
+			<div class="col-md-12">
+				<h2 class="blog-post-title">
+					{{ project.title }}</h2>
+
+				<div class="blog-main">
+					{{ project.text }}<br>
+				</div>
+				{% if project.github %}
+				<div class="projects-github">
+					Github: {{ project.github }}<br>
+				</div>
+				{% endif %}
+				{% if project.related_posts.all %}
+				<div class="projects-posts">
+					<p>Related posts:</p><ul> 
+					{% for post in project.related_posts.all %}
+						<li><a href="{% url 'post' post.slug %}">{{ post.title }}</a></h2></li>
+					{% endfor %}
+					</ul>
+				</div>
+				{% endif %}
+				<hr>
+			</div>
+{% endfor %}
+
+
+	</div>
+</div> 
+
+{% endblock %}

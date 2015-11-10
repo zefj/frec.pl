@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^blog/(?P<post_name_slug>[\w\-]+)/$', 'mainsite.views.post', name='post'),
     url(r'^about/$', 'mainsite.views.about', name='about'),
     url(r'^search/$', 'mainsite.views.search', name='search'),
+    url(r'^projects/$', 'mainsite.views.projects', name='projects'),
     #url(r'^ckeditor/browse/', never_cache(staff_member_required(views.browse)), name='ckeditor_browse'),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]

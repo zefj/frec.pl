@@ -1,19 +1,23 @@
 {% extends 'base.html' %}
 {% block page_content %}
+
 {% if about_text %}
-{% for text in about_text %}
-{{ text.text|safe }}
-{% endfor %}
+	{% for text in about_text %}
+		{{ text.text|safe }}
+	{% endfor %}
+{% else %}
+	<h1>Nothing here yet. Come back soon!</h1>
 {% endif %}
+
 <div class="cv-download" align="center">
-{% if cv_pl or cv_en %}
-	<h3>You can download my <b>curriculum vitae</b> here:</h3>
-	{% if cv_pl %}
-	<a href="{{ cv_pl.cv.url }}" class="btn btn-custom btn-lg" role="button">In polish</a>
-	{% endif %}
-	{% if cv_en %}
-	<a href="{{ cv_en.cv.url }}" class="btn btn-custom btn-lg" role="button">In english</a>
-	{% endif %}
-{% endif %}	
+	{% if cv_pl or cv_en %}
+		<h3>You can download my <b>curriculum vitae</b> here:</h3>
+			{% if cv_pl %}
+				<a href="{{ cv_pl.cv.url }}" class="btn btn-custom btn-lg" role="button">In polish</a>
+			{% endif %}
+			{% if cv_en %}
+				<a href="{{ cv_en.cv.url }}" class="btn btn-custom btn-lg" role="button">In english</a>
+			{% endif %}
+	{% endif %}	
 </div>
 {% endblock %}
