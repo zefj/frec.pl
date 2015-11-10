@@ -14,10 +14,11 @@
 		<div class="blog-post">
 			<h2 class="blog-post-title">
 			<a href="{% url 'post' post.slug %}">{{ post.title }}</a></h2>
-			<div class="blog-post-meta">Published on: {{ post.pub_date }}
+			<div class="blog-post-meta">
+			<span class="fa fa-clock-o fa-lg" aria-hidden="true"></span> {{ post.pub_date }}
 			
 			<form action="{% url 'blog' %}" method="get">
-			Tags: 
+			<span class="fa fa-slack fa-lg" aria-hidden="true"></span>
 				{% for tag in post.get_tags_list %}
 					{% if filter_tag == tag %}
 					<input type="submit" class="btn btn-xs btn-custom" align="left" id="{{ tag }}" name="filter" value="{{ tag }}" />
@@ -28,8 +29,9 @@
 			</form>			
 			</div>
 			<hr>
-			{{ post.text|truncatewords:300|safe }}<br>
-			
+			{{ post.text|truncatewords:300|safe }}
+
+
 			<div class="right-align">
 			<button class="btn btn-xs btn-default" align="right" onClick="location.href='{% url 'post' post.slug %}'">Read on...</button>
 			</div>
@@ -54,6 +56,7 @@
 			{% endif %}
 		{% endfor %}
 	</form>			
+</div>
 </div><br>
 
 {% if posts.has_other_pages %}
@@ -84,5 +87,4 @@
 	  </ul>
 	</nav>
 {% endif %}
-
 {% endblock %}

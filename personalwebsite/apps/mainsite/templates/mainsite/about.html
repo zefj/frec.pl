@@ -9,10 +9,10 @@
 {% if cv_pl or cv_en %}
 	<h3>You can download my <b>curriculum vitae</b> here:</h3>
 	{% if cv_pl %}
-	<a href="{{ cv_pl.cv.url }}" class="btn btn-success btn-lg" role="button">In polish</a>
+	<a href="{{ cv_pl.cv.url }}" class="btn btn-custom btn-lg" role="button">In polish</a>
 	{% endif %}
 	{% if cv_en %}
-	<a href="{{ cv_en.cv.url }}" class="btn btn-success btn-lg" role="button">In english</a>
+	<a href="{{ cv_en.cv.url }}" class="btn btn-custom btn-lg" role="button">In english</a>
 	{% endif %}
 {% endif %}	
 </div>

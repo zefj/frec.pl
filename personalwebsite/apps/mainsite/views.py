@@ -39,10 +39,8 @@ def blog(request, template_name='mainsite/blog.html'):
 
 def post(request, template_name='mainsite/post.html', post_name_slug=None):
     
-    if post_name_slug:
-
-        requested_post = get_object_or_404(Post, slug=post_name_slug)
-        context_dict = {'post': requested_post}
+    requested_post = get_object_or_404(Post, slug=post_name_slug)
+    context_dict = {'post': requested_post}
 
     return render(request, template_name, context_dict)
 
@@ -58,12 +56,6 @@ def about(request, template_name='mainsite/about.html'):
     return render(request, template_name, context_dict)
 
 def search(request, template_name='mainsite/search_results.html'):
-
-    """ TODO:
-
-    wyswietlanie wynikow wyszukiwania w tagach i postach osobno
-
-    """
 
     query_string = ''
     found_entries = None
