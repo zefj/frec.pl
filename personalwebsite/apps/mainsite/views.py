@@ -57,17 +57,6 @@ def about(request, template_name='mainsite/about.html'):
 
 def projects(request, template_name='mainsite/projects.html'):
 
-    projects = Project.objects.all()
-
-    print projects
-
-    for project in projects:
-        p_obj = Project.objects.get(title=project)
-        print p_obj.related_posts.all()
-        project.related_posts = p_obj.related_posts.all()
-
-        print project
-
     context_dict = {'projects': Project.objects.all()}
     
     return render(request, template_name, context_dict)
