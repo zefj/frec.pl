@@ -24,7 +24,7 @@ class Post(models.Model):
     text = RichTextUploadingField()
     tags = models.ManyToManyField(Tag)
     slug = models.SlugField()
-    project_relation = models.ForeignKey(Project, null = True, verbose_name='Related to project', related_name='related_posts')
+    project_relation = models.ForeignKey(Project, blank = True, null = True, verbose_name='Related to project', related_name='related_posts')
 
     def __unicode__(self):
         return self.title
