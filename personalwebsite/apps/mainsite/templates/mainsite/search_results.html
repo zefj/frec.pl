@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block title %}
+	{% if query_string %}
+		Search results for {{ query_string }}
+	{% else %}
+		Search results
+	{% endif %}
+{% endblock %}
+
 {% block page_stylesheets %}
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 {% endblock %}
