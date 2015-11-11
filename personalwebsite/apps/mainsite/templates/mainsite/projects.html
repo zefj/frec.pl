@@ -20,7 +20,10 @@ Projects
 				</div>
 				{% if project.github %}
 				<div class="projects-github">
-					Github: {{ project.github }}<br>
+				<br>
+					<p>Github:</p><ul>
+					<li><a href="{{ project.github }}">{{ project.github }}</a></li>
+					</ul>
 				</div>
 				{% endif %}
 				{% if project.related_posts.all %}

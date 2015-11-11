@@ -7,8 +7,6 @@ from django.conf import settings
 from mainsite.models import Post, About, CV, Tag, Project
 from mainsite.utils import get_query
 
-
-#test line
 def paginator(model_objects, page_number):
 
     posts_per_page = getattr(settings, "ELEMENTS_PER_PAGE")
