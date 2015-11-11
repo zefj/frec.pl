@@ -10,6 +10,12 @@ class PostAdmin(admin.ModelAdmin):
 	list_display_links = (('id', 'title', 'pub_date'))
 	exclude = ('slug',)
 
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+	list_display = (
+		'title', 'rank'
+		)
+
 @admin.register(CV)
 class CVAdmin(admin.ModelAdmin):
 	list_display = (
@@ -19,4 +25,3 @@ class CVAdmin(admin.ModelAdmin):
 
 admin.site.register(Tag)
 admin.site.register(About)
-admin.site.register(Project)

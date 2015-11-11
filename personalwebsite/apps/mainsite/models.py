@@ -14,9 +14,13 @@ class Project(models.Model):
     title = models.CharField('Title', max_length = 128)
     text = models.TextField()
     github = models.URLField(blank = True)
+    rank = models.IntegerField()
 
     def __unicode__(self):
         return self.title    
+
+    class Meta:
+        ordering = ['rank']
 
 class Post(models.Model):
     title = models.CharField('Title', max_length = 128)
