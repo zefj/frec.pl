@@ -25,7 +25,11 @@
 				<input type="submit" class="btn btn-xs btn-default" align="left" id="{{ tag }}" name="filter" value="{{ tag }}" />
 			{% endfor %}
 		</form>
+	{% else %}
+		<h1>No tags found.</h1>
 		<hr>
+
+	
 	{% endif %}
 </div>
 {% if search_post_results %}
@@ -94,7 +98,7 @@
 
 
 {% else %}
-	<h1>Nothing to see here</h1>
+	<h1>No posts found.</h1>
 {% endif %}
 
 

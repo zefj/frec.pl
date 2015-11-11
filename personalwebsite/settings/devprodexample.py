@@ -1,36 +1,41 @@
 """
-Extension settings file for development and production example. Fill the missing variables with appropriate data. 
+Extension settings file example for development and/or production. This is a straight copy of the production settings file I use on the server, obviously excluding sensitive data.
  
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+"""
+Production settings.
+
+"""
+
 from base import *
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = None
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
+# Static and media files (CSS, JavaScript, Images)
+# Media lies outside of the project folder, hence this peculiar MEDIA_ROOT
 
 MEDIA_URL ='/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 
 STATIC_URL = '/static/'
-STATIC_PATH = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
-    STATIC_PATH,
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')

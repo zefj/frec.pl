@@ -42,6 +42,7 @@ Home
 	<h1>Nothing here yet. Come back soon!</h1>
 {% endif %}
 
+{% if available_tags %}
 <div class="blog-content-wrapper">
 	<div class="available-tags">
 		<hr>
@@ -58,6 +59,7 @@ Home
 	</div>
 </div>
 <br>
+{% endif %}
 
 {% if posts.has_other_pages %}
 	{% load url_replace %}
