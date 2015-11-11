@@ -5,4 +5,4 @@ personalwebsite/media
 personalwebsite/db.sqlite3
 personalwebsite/settings/dev.py
 personalwebsite/settings/prod.py
-personalwebsite/manage.py
+manage.py
