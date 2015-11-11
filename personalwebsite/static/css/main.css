@@ -296,9 +296,7 @@ body {
   float: right;
 }
 
-.form-control {
-  padding: 0;
-}
+
 
 .form-control:focus {
   border-color: #384814;
