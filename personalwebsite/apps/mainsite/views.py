@@ -75,7 +75,6 @@ def search(request, template_name='mainsite/search_results.html'):
     if queries:
         found_post_entries = Post.objects.filter(queries['Post']).distinct()
         found_tags_entries = Tag.objects.filter(queries['Tag']).distinct()
-        print found_tags_entries
         paginated_found_post_entries = paginator(found_post_entries, request.GET.get('page'))
 
     else:
