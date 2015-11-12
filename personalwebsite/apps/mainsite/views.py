@@ -75,6 +75,7 @@ def search(request, template_name='mainsite/search_results.html'):
     if queries:
         found_post_entries = Post.objects.filter(queries['Post']).distinct()
         found_tags_entries = Tag.objects.filter(queries['Tag']).distinct()
+        print found_tags_entries
         paginated_found_post_entries = paginator(found_post_entries, request.GET.get('page'))
 
     else:
@@ -84,7 +85,7 @@ def search(request, template_name='mainsite/search_results.html'):
     return render_to_response(template_name,
                               {'query_string': query_string,
                               'search_post_results': paginated_found_post_entries,
-                              'search_tags_results': found_tags_entries,
+                              'search_tag_results': found_tags_entries,
                               },
                               context_instance=RequestContext(request))
 
