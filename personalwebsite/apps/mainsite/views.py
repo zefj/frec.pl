@@ -5,7 +5,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 
 from mainsite.models import Post, About, CV, Tag, Project
-from mainsite.utils import get_query
+
+from django_simple_search2 import search_handler
 
 def paginator(model_objects, page_number):
 
@@ -63,26 +64,27 @@ def projects(request, template_name='mainsite/projects.html'):
 
 def search(request, template_name='mainsite/search_results.html'):
 
-    query_string = ''
-    found_entries = None
-    if 'q' in request.GET and request.GET['q'].strip() and request.GET['q'] != '':
-        query_string = request.GET['q']
-        
-        entry_post_query = get_query(query_string, ['title', 'text', 'tags__name'])
-        entry_tags_query = get_query(query_string, ['name'])
+    model_fields = {
+        'Post': ['title', 'text', 'tags__name'],
+        'Tag': ['name']
+    }
 
-        found_post_entries = Post.objects.filter(entry_post_query).distinct()
-        found_tags_entries = Tag.objects.filter(entry_tags_query).distinct()
-
+    query_string = request.GET['q']
+    queries = search_handler(query_string, model_fields)
+    
+    if queries:
+        found_post_entries = Post.objects.filter(queries['Post']).distinct()
+        found_tags_entries = Tag.objects.filter(queries['Tag']).distinct()
         paginated_found_post_entries = paginator(found_post_entries, request.GET.get('page'))
 
-        return render_to_response(template_name,
-                                  {'query_string': query_string,
-                                      'search_post_results': paginated_found_post_entries,
-                                      'search_tag_results': found_tags_entries},
-                                  context_instance=RequestContext(request))
-
     else:
-        return render_to_response(template_name,
-                                  {'query_string': query_string},
-                                  context_instance=RequestContext(request))
+        paginated_found_post_entries = None
+        found_tags_entries = None
+
+    return render_to_response(template_name,
+                              {'query_string': query_string,
+                              'search_post_results': paginated_found_post_entries,
+                              'search_tags_results': found_tags_entries,
+                              },
+                              context_instance=RequestContext(request))
+

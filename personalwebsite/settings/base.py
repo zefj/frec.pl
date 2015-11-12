@@ -17,7 +17,8 @@ PREREQ_APPS = [
 PROJECT_APPS = [    
     'mainsite',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
+    'django_simple_search2'
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
