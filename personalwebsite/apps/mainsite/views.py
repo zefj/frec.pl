@@ -30,7 +30,7 @@ def blog(request, template_name='mainsite/blog.html'):
         paginated_posts = paginator(Post.objects.filter(tags__name=filter_tag).exclude(pub_date__isnull=True).order_by('-pub_date'), request.GET.get('page'))
     else:
         filter_tag = None
-        paginated_posts = paginator(Post.objects.exclude(pub_date__isnull=True).order_by('-pub_date'), request.GET.get('page'))
+        paginated_posts = paginator(Post.objects.exclude(pub_date__isnull=True).order_by('-pub_date', '-id'), request.GET.get('page'))
 
     available_tags = [tag.name for tag in Tag.objects.all()]
 
