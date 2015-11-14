@@ -97,12 +97,11 @@ textarea {
 
 body {
   padding-top: 51px;  
-  overflow-x: hidden;
   height: 100%;
 }
 
 .text-center {
-  padding-top: 20px;
+  padding-top: 0px;
 }
 
 @media (min-width: 1200px) {
@@ -113,26 +112,51 @@ body {
 
 .navbar-toggle {
   float: left;
+  margin-right: 5px;
+}
+
+.navbar-brand {
+  padding-left: 5px;
+}
+
+@media screen and (min-width: 768px) {
+  .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+    margin-left: 0px;
+  }
 }
 
 .overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index:99;
+  position:absolute;
+  top:-5px;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:1020;
+  pointer-events: none;    
+  color:white;  
 }
 
 #sidebar {
   position: fixed;
   width: 270px;
-  padding-top: 20px;
+  padding-top: 0px;
+  z-index: 101;
 }
 
 #main-content {
   margin-left: 270px;
+  display: table-cell;
 }
 
+
+
+.col-md-12, .col-sm-12, .col-lg-12{
+  min-height: 100%;
+}
+
+.noscroll {
+  overflow: hidden;
+}
 
 /* collapsed sidebar styles */
 @media screen and (max-width: 992px) {
@@ -142,7 +166,7 @@ body {
     -webkit-transition: all 0.25s ease-out;
     -moz-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;
-    padding-top: 20px;
+    padding-top: 5px;
   }
 
   .row-offcanvas
@@ -166,14 +190,14 @@ body {
 
   .row-offcanvas.active
   #main-content {
-    width: 70%;
-    position: relative;
+    display: block;
     left: 28%;
     margin-right: 0;
   }
 
   .row-offcanvas.active
   .overlay {
+    background: rgba(0, 0, 0, .5);
     pointer-events: visible;
   }
 
@@ -184,14 +208,6 @@ body {
 
 @media screen and (max-width: 767px) {
 
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all 0.25s ease-out;
-    -moz-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out;
-    padding-top: 20px;
-  }
-
   .row-offcanvas 
   #sidebar {
     width: 0px;
@@ -199,20 +215,19 @@ body {
     height: 0px;
   }
 
-
   .row-offcanvas.active
   #sidebar {
     position: fixed;
-    width: 250px;
+    overflow-y: auto;
+    width: 220px;
     height: 100%;
     left: 0px;
-    
-    padding-top: 20px;
   }
 
   .row-offcanvas.active
   #main-content {
-    left: 250px;
+    left: 220px;
+
   }
 }
 
@@ -249,7 +264,7 @@ body {
 .profile-usermenu {
   height: 50%;
   margin-top: 30px;
-  overflow-y: auto;
+  
 }
 
 .profile-usermenu ul li {
