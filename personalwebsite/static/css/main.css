@@ -146,6 +146,7 @@ body {
 #main-content {
   margin-left: 270px;
   display: table-cell;
+  padding-bottom: 15px;
 }
 
 
