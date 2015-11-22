@@ -16,6 +16,16 @@ html {
     line-height: 1.4;
 }
 
+pre {
+    padding: 0px;
+    border: 0px;
+    white-space: pre-wrap;       /* CSS 3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301
@@ -311,7 +321,6 @@ body {
 .right-align {
   float: right;
 }
-
 
 
 .form-control:focus {

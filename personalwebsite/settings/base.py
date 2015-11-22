@@ -25,7 +25,7 @@ INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-CKEDITOR_BROWSE_SHOW_DIRS = False
+CKEDITOR_BROWSE_SHOW_DIRS = True
 
 CKEDITOR_CONFIGS = {
     'default': {
@@ -52,7 +52,7 @@ CKEDITOR_CONFIGS = {
             {'name': 'insert',
              'items': ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
             '/',
-            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize', 'CodeSnippet']},
             {'name': 'colors', 'items': ['TextColor', 'BGColor']},
 
             {'name': 'about', 'items': ['About']},
@@ -64,12 +64,13 @@ CKEDITOR_CONFIGS = {
             ]},
         ],
         'toolbar': 'YouCustomToolbarConfig',  
-        'tabSpaces': 0,
-        'fillEmptyBlocks': 'false',
+        'tabSpaces': 4,
+        # 'fillEmptyBlocks': 'false',
         'protectedSource': '(/<i[^>]*><\/i>/g);',
+        
         'extraPlugins': ','.join(
             [
-            
+            'codesnippet',
             ]),
 
     }

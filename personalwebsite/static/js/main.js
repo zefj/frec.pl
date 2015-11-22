@@ -5,11 +5,12 @@ $(document).ready(function() {
   });
 });
 
-hljs.configure({useBR: true});
+
 
 $(document).ready(function() {
-  $('p code').each(function(i, block) {
+  $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
 });
+
 
