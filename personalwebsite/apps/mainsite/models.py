@@ -48,7 +48,7 @@ class Post(models.Model):
             self.visible = False
 
         if not self.id:
-            self.slug = slugify(self.title)
+            self.slug = slugify(self.title)[:50]
 
         super(Post, self).save(*args, **kwargs)
 
