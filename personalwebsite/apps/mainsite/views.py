@@ -32,8 +32,6 @@ def blog(request, template_name='mainsite/blog.html'):
         filter_tag = None
         paginated_posts = paginator(Post.objects.exclude(pub_date__isnull=True).order_by('-pub_date', '-id'), request.GET.get('page'))
 
-    post = Post.objects.get(title="Dddd")
-    print post.text
     available_tags = [tag.name for tag in Tag.objects.all()]
 
     context_dict = {'posts': paginated_posts, 'filter_tag': filter_tag, 'available_tags': available_tags}
