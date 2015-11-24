@@ -1,4 +1,4 @@
 Django==1.8.6
--e git+https://github.com/zefj/django-ckeditor.git@866c242c8dea0f794cc21546d7fc4005c2e8ad0b#egg=django_ckeditor-master
--e git+https://github.com/zefj/django-simple-search2@aeb65269d50d1cd49bc2763d89e2f1ba311735c0#egg=django_simple_search2-master
+git+https://github.com/django-ckeditor/django-ckeditor.git@master
+git+https://github.com/zefj/django-simple-search2.git@master
 wheel==0.24.0
