@@ -1,5 +1,8 @@
+import os
+
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.conf import settings
 
 from ckeditor_uploader.fields import RichTextUploadingField
 
@@ -78,8 +81,24 @@ class CV(models.Model):
     def __unicode__(self):
         return self.language
 
+    def save(self, *args, **kwargs):
+
+        if self.id:
+            old_file = CV.objects.get(language=self.language)
+            MEDIA_ROOT = getattr(settings, 'MEDIA_ROOT')
+            os.remove(os.path.join(MEDIA_ROOT, old_file.cv.name))
+
+        super(CV, self).save(*args, **kwargs)    
+
+    def delete(self, *args, **kwargs):
+
+        MEDIA_ROOT = getattr(settings, 'MEDIA_ROOT')
+        os.remove(os.path.join(MEDIA_ROOT, self.cv.name))
+
+        super(CV, self).delete(*args, **kwargs)
+
     class Meta:
-        verbose_name_plural = "CVs"          
+        verbose_name_plural = "CVs"
 
 class SingletonModel(models.Model):
     """Singleton Django Model
