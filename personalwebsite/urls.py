@@ -16,26 +16,19 @@ Including another URLconf
 from django.conf.urls import include, url, patterns
 from django.contrib import admin
 from django.conf import settings
+from django.conf.urls.static import static
 
-#from django.contrib.admin.views.decorators import staff_member_required
-#from django.views.decorators.cache import never_cache
-
-#from mainsite import views
+from mainsite import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'mainsite.views.blog', name='blog'),
-    url(r'^blog/(?P<post_name_slug>[\w\-]+)/$', 'mainsite.views.post', name='post'),
-    url(r'^about/$', 'mainsite.views.about', name='about'),
-    url(r'^search/$', 'mainsite.views.search', name='search'),
-    url(r'^projects/$', 'mainsite.views.projects', name='projects'),
-    #url(r'^ckeditor/browse/', never_cache(staff_member_required(views.browse)), name='ckeditor_browse'),
+    url(r'^$', views.blog, name='blog'),
+    url(r'^blog/(?P<post_name_slug>[\w\-]+)/$', views.post, name='post'),
+    url(r'^about/$', views.about, name='about'),
+    url(r'^search/$', views.search, name='search'),
+    url(r'^projects/$', views.projects, name='projects'),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
-
 if settings.DEBUG:
-    # static files (images, css, javascript, etc.)
-    urlpatterns += patterns('',
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-        'document_root': settings.MEDIA_ROOT}))
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
