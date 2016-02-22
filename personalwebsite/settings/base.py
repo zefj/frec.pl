@@ -16,9 +16,10 @@ PREREQ_APPS = [
 
 PROJECT_APPS = [    
     'mainsite',
+    'blendy',
     'ckeditor',
     'ckeditor_uploader',
-    'django_simple_search2'
+    'django_simple_search2',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS

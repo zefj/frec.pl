@@ -155,7 +155,7 @@ body {
 
 #main-content {
   margin-left: 270px;
-  display: table-cell;
+  /*display: table-cell;*/ /*po co to bylo?*/
   padding-bottom: 15px;
 }
 

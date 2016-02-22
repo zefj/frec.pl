@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^about/$', views.about, name='about'),
     url(r'^search/$', views.search, name='search'),
     url(r'^projects/$', views.projects, name='projects'),
+    url(r'^blendy/', include('blendy.urls', namespace='blendy')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'^bscthesis\.txt$', TemplateView.as_view(template_name='bscthesis.txt', content_type='text/plain'))

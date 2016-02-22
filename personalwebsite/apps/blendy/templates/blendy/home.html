@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Blendy
+{% endblock %}
+
+{% block page_content %}
+
+<style>
+	.highlight {
+		background-color: yellow;
+	}
+
+	.underline {
+	    display: inline-block;
+	    position:relative;
+	    background: url({% static 'img/underline.gif' %}) bottom repeat-x;
+	}
+
+	p {
+    	white-space: pre-wrap;
+	}
+</style>
+
+<meta http-equiv="Content-Type" content="text/plain; charset=utf-8">
+
+<div class="blendy">
+	<!-- <div class="container-fluid" id="projects"> -->
+		<div class="row">
+			<form method="POST" id="post-form">
+				{% csrf_token %}
+
+				<div class="col-lg-6 col-md-6 col-xs-12">
+					<label value="text">Text to check</label><br>
+					<textarea id="text" name="text" style="width: 100%; height: 300px; text-align: top;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+				</div>
+
+				<div class="col-lg-6 col-md-6 col-xs-12">
+					<label value="user">User</label><br>
+					<input type="text" id="user" name="user" value=""><br><br>
+					<label value="check type">Spell check engine</label><br>
+					<input type="radio" name="engine" value="java"> languagetool.org<br>
+					<input type="radio" name="engine" value="enchant"> Enchant
+					<br><br>
+
+					<input type="submit" id="textareaButton" value="Check!" class="btn btn-xs btn-default">
+
+				</div>
+
+			</form>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-xs-12">
+				<div class="results" style="width:99%">
+					<br><p></p>	
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-xs-12">
+				<div class="replacements" style="width:99%">
+					<br><div id="replcontainer"></div>
+				</div>
+			</div>
+		</div>
+	<!-- </div> -->
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{% static 'blendy/hmac-sha1.js' %}"></script>
+<script src="{% static 'blendy/blendy.js' %}"></script>
+
+{% endblock %}
