@@ -10,6 +10,9 @@ import hmac
 
 import datetime
 
+"""
+Dzieli zdanie po spacjach, zwraca liste slow.
+"""
 def parser(text):
 
 	if len(text) > 0:
@@ -17,6 +20,12 @@ def parser(text):
 	else:
 		return list()
 
+"""
+Przetwarza tekst za pomoca wyrazen regularnych. 
+
+1. Usuwa znaki specjalne
+2. Usuwa whitespace przed, po, oraz znaki powtorzone (np. dwie spacje)
+"""
 def sanitizer(text):
 
 	text = text.encode('utf-8')
@@ -28,6 +37,15 @@ def sanitizer(text):
 def java(text):
 	pass
 
+"""
+Glowna funkcja sprawdzania poprawnosci zdan. Przyjmuje liste slow, zwraca slownik z sugestiami w postaci:
+	{
+	'slowo': 
+		['sugestia1', 'sugestia2', 'sugestia3'],
+	'slowo2': 
+		['sugestia1', 'sugestia2']
+	}
+"""
 def pyenchant(wordList):
 	
 	suggDict = {}
@@ -40,6 +58,10 @@ def pyenchant(wordList):
 
 	return suggDict
 
+"""
+Glowny interfejs komunikacji z modulem sprawdzania poprawnosci ort., obsluga powinna odbywac sie przez ta funkcje. 
+Przyjmuje nazwe silnika oraz liste slow.
+"""
 def spellcheckHandler(engine, wordList):
 
 	if engine == 'google':
@@ -51,6 +73,10 @@ def spellcheckHandler(engine, wordList):
 	else:
 		return False
 
+"""
+Funkcja zapisujaca ilosc sprawdzonych przez uzytkownika slow. Przyjmuje nazwe uzytkownika oraz ilosc slow. 
+Ilosc slow powinna byc obliczana przez program! Np. funkcja wbudowana len() na liscie slow z funkcji utils.parser().
+"""
 def logger(user, words_quantity):
 
 	billobject = DailyBill.objects.filter(user__name=user).filter(date=datetime.date.today())
@@ -62,6 +88,9 @@ def logger(user, words_quantity):
 
 	return
 
+"""
+Funkcja autoryzujaca.
+"""
 def authorize(url, user, apikey_supplied, signature):
 
 	try:

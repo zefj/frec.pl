@@ -11,7 +11,25 @@ def home(request, template_name='blendy/home.html'):
 
     context_dict = {}
     return render(request, template_name, context_dict)
+    
+"""
+Widok uslugi sprawdzania poprawnosci ortograficznej. Odpowiada na metode GET, parametry wymagane:
+	user - nazwa uzytkownika,
+	key - przydzielony klucz api,
+	engine - silnik {enchant, java},
+	signature - obliczona sygnatura zapytania, 
 
+Przykladowe zapytanie: /blendy/check/?
+
+Sygnatura tworzona jest z polaczenia adresu url (bez pierwszej sciezki) oraz sekretu. Opis procesu znajduje sie
+w dokumentacji, oraz w pliku utils.py przy metodzie authorize().
+
+Widok zwraca odpowiedz w formacie JSON, i zawiera:
+	query - tekst do sprawdzenia przeslany w zapytaniu,
+	escapedquery - tekst przetworzony funkcja utils.sanitizer()
+	words - lista zidentyfikowanych slow
+	replacements - sugestie zmian do ww. slow
+"""
 def checkSpelling(request):
 
 	if request.method == 'GET':
