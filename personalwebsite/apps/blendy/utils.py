@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from blendy.models import ApiUsers, DailyBill
+from blendy.models import ApiUser, ApiUserGroup, DailyUsageLog
 from django.db.models import F
 import requests
 import xml.etree.ElementTree as ET
@@ -12,10 +12,6 @@ from hashlib import sha1
 import hmac
 
 import datetime
-
-class DoesNotCompute(Exception):
-    """ Easy to understand naming conventions work best! """
-    pass
 
 """
 Dzieli zdanie po spacjach, zwraca liste slow.
@@ -41,6 +37,17 @@ def sanitizer(text):
 
 	return text	
 
+"""
+Funkcja sprawdzania poprawnosci zdan za pomoca serwera programu languagetool (languagetool.org). Przyjmuje liste slow, zwraca slownik z sugestiami w postaci:
+	{
+	'slowo': 
+		['sugestia1', 'sugestia2', 'sugestia3'],
+	'slowo2': 
+		['sugestia1', 'sugestia2']
+	}
+
+Serwer musi zostac wczesniej uruchomiony i nasluchiwac na porcie 8081.
+"""
 def java(wordList):
 
 	suggDict = {}
@@ -61,7 +68,7 @@ def java(wordList):
 
 
 """
-Glowna funkcja sprawdzania poprawnosci zdan. Przyjmuje liste slow, zwraca slownik z sugestiami w postaci:
+Funkcja sprawdzania poprawnosci zdan za pomoca biblioteki enchant. Przyjmuje liste slow, zwraca slownik z sugestiami w postaci:
 	{
 	'slowo': 
 		['sugestia1', 'sugestia2', 'sugestia3'],
@@ -72,7 +79,6 @@ Glowna funkcja sprawdzania poprawnosci zdan. Przyjmuje liste slow, zwraca slowni
 def pyenchant(wordList):
 	
 	suggDict = {}
-	# print wordList
 	
 	for word in wordList:
 		if not d.check(word):
@@ -97,22 +103,23 @@ def spellcheckHandler(engine, wordList):
 		return False
 
 """
-Funkcja zapisujaca ilosc sprawdzonych przez uzytkownika slow. Przyjmuje nazwe uzytkownika oraz ilosc slow. 
-Ilosc slow powinna byc obliczana przez program! Np. funkcja wbudowana len() na liscie slow z funkcji utils.parser().
+Funkcja zapisujaca ilosc sprawdzonych przez uzytkownika slow. Przyjmuje nazwe uzytkownika oraz ilosc slow. Ilosc ta naliczana jest na konto grupy 
+uzytkownikow API, do ktorej nalezy uzytkownik. 
 """
-def logger(user, words_quantity):
+def logger(username, words_quantity):
 
-	billobject = DailyBill.objects.filter(user__name=user).filter(date=datetime.date.today())
-	if billobject.exists():
-		billobject.update(words_checked=F('words_checked')+words_quantity)
+	user = ApiUser.objects.get(user__username=username)
+
+	daily_group_log_object = DailyUsageLog.objects.filter(group=user.group).filter(date=datetime.date.today())
+	if daily_group_log_object.exists():
+		daily_group_log_object.update(words_checked=F('words_checked')+words_quantity)
 	else:
-	 	billobject = DailyBill(user=ApiUsers.objects.get(name=user), words_checked = words_quantity)
-	 	billobject.save()
-
+	 	daily_group_log_object = DailyUsageLog(group=user.group, words_checked = words_quantity)
+	 	daily_group_log_object.save()
 	return
 
 """
-Funkcja uwierzytelniajaca. Przyjmuje url zapytania, nazwe uzytkownika, dostarczony klucz API oraz sygnature zapytania.
+Funkcja uwierzytelniajaca zapytania z zewnatrz. Przyjmuje url zapytania, nazwe uzytkownika, dostarczony klucz API oraz sygnature zapytania.
 
 Proces podpisywania zapytania wyglada nastepujaco:
 
@@ -127,10 +134,10 @@ Proces podpisywania zapytania wyglada nastepujaco:
 
 Serwer wykonuje powyzszy proces w ten sam sposob, obliczone sygnatury musza sie zgadzac.
 """
-def authenticate_request(url, user, apikey_supplied, signature):
+def authenticate_external_request(url, username, apikey_supplied, signature):
 	try:
-		userobject = ApiUsers.objects.get(name=user)
-		apikey = userobject.APIKey
+		userobject = ApiUser.objects.get(user__username=username)
+		apikey = userobject.group.APIKey
 		secret = userobject.secret
 
 		if apikey == apikey_supplied:
@@ -145,5 +152,20 @@ def authenticate_request(url, user, apikey_supplied, signature):
 		else:
 			return False	
 
-	except ApiUsers.DoesNotExist:
+	except ApiUser.DoesNotExist:
 		return False
+
+"""
+Funkcja uwierzytelniajaca zapytania wewnetrzne (z uzyciem systemu uzytkownikow). Przyjmuje objekt uzytkownika.
+"""
+def authenticate_internal_request(user):
+	try:
+		userobject = ApiUser.objects.get(user=user)	
+
+		if user:
+			return True
+		else:
+			return False
+
+	except ApiUser.DoesNotExist:
+		return False	

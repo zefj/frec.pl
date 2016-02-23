@@ -1,35 +1,54 @@
 from __future__ import unicode_literals
-import random, string
 from django.db import models
+from django.contrib.auth.models import User, Group
 
-class ApiUsers(models.Model):
+class ApiUserGroup(models.Model):
 
-    name = models.CharField('Name', max_length = 128)
-    APIKey = models.CharField('Key', blank = True, null = True, max_length = 15)
-    secret = models.CharField('Key', blank = True, null = True, max_length = 15)
+    group = models.OneToOneField(Group, on_delete=models.CASCADE)
+    APIKey = models.CharField('Key', blank = True, null = True, max_length = 30)
 
     def __unicode__(self):
-        return self.name    
+        return self.group.name
 
     class Meta:
-        verbose_name_plural = "API users"
+        verbose_name_plural = "API user groups"
 
     def save(self, *args, **kwargs):
         """
-        Save object to the database. Removes all other entries if there
-        are any.
+        Generates keys on save.
         """
+        import random, string
+
         if not self.APIKey:
-            self.APIKey = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(15))
+            self.APIKey = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
+        super(ApiUserGroup, self).save(*args, **kwargs)
+
+class ApiUser(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    secret = models.CharField('Secret', blank = True, null = True, max_length = 30)
+    group = models.ForeignKey(ApiUserGroup, on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return self.user.username
+
+    class Meta:
+        verbose_name_plural = "API user"
+
+    def save(self, *args, **kwargs):
+        """
+        Generates keys on save.
+        """
+        import random, string
+
         if not self.secret:
-            self.secret = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(15))    
-        super(ApiUsers, self).save(*args, **kwargs)
+            self.secret = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(30))
+        super(ApiUser, self).save(*args, **kwargs)
 
-class DailyBill(models.Model):
+class DailyUsageLog(models.Model):
 
-    user = models.ForeignKey(ApiUsers, on_delete=models.CASCADE)
+    group = models.ForeignKey(ApiUserGroup, on_delete=models.CASCADE)
     date = models.DateField(auto_now = True)
     words_checked = models.IntegerField()
 
-    def __unicode__(self):
-        return unicode(self.user)
+
