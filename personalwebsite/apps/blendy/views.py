@@ -85,7 +85,7 @@ def checkSpelling(request):
 			escapedQuery = utils.sanitizer(query)
 			wordList = utils.parser(escapedQuery)
 			engine = request.GET.get('engine')			
-			replacements = utils.spellcheckHandler(engine, wordList)			
+			replacements = utils.spellcheckHandler(engine, wordList)		
 			response_data = {}
 			response_data['query'] = query
 			response_data['escapedquery'] = escapedQuery
@@ -128,7 +128,7 @@ def checkSpelling_int(request):
 			escapedQuery = utils.sanitizer(query)
 			wordList = utils.parser(escapedQuery)
 			engine = request.GET.get('engine')			
-			replacements = utils.spellcheckHandler(engine, wordList)			
+			replacements = utils.spellcheckHandler(engine, wordList)
 			response_data = {}
 			response_data['query'] = query
 			response_data['escapedquery'] = escapedQuery
