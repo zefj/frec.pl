@@ -11,6 +11,9 @@ class ApiUsers(models.Model):
     def __unicode__(self):
         return self.name    
 
+    class Meta:
+        verbose_name_plural = "API users"
+
     def save(self, *args, **kwargs):
         """
         Save object to the database. Removes all other entries if there

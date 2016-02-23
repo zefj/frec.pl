@@ -23,7 +23,7 @@
 //     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 // }
 
-var url = 'check/'
+var url = 'check_int/'
 var APIKEY = 'BNEBQIIL8KVC1LE'
 var SECRET = 'YMX3GMBXS8ZDG3W'
 
@@ -43,7 +43,7 @@ $(document).ready(function(){
         $.ajax({
             type: "GET",
             url: url,
-            data: {text: text, engine: engine, user: user, key: APIKEY},
+            data: {text: text, engine: engine},
             success: function(result) {
                 $('.results p').text(text);
                 // console.log(result);
@@ -71,7 +71,7 @@ $(document).ready(function(){
                 modUrl = settings.url.replace(/'/g, "%27") // chrome najwidoczniej nie escape'uje apostrofow...
                 var signature = CryptoJS.HmacSHA1(modUrl, SECRET).toString(); 
                 // console.log(signature)
-                jqXHR.setRequestHeader("Authorization", signature)
+                //jqXHR.setRequestHeader("Authorization", signature)
 
             }
         });

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block style %}
+
+input:not([type='button']):not([type='submit']) {
+width: 300px;
+margin-left: 10px;
+}
+
+{% endblock %}
+
+{% block page_content %}
+
+<div class="page-header">
+<h1>Logowanie</h1>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+
+{% endfor %}
+{% endif %}
+
+<form id="login_form" method="post" action="{% url 'blendy:login' %}">
+    {% csrf_token %}
+    Login: <br><input type="text" name="username" value="" size="50" />
+    <br>
+    Hasło: <br><input type="password" name="password" value="" size="50" />
+    <br><br>
+
+    <input type="submit" class="btn btn-success" value="Zaloguj" /> 
+</form>
+
+{% endblock %}

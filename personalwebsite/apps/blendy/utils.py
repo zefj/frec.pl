@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from blendy.models import ApiUsers, DailyBill
 from django.db.models import F
+import requests
+import xml.etree.ElementTree as ET
+from django.core.urlresolvers import Resolver404
 
 import enchant
 d = enchant.Dict("pl_PL") #aspell-pl z http://packages.ubuntu.com/precise/aspell-dictionary
@@ -9,6 +12,10 @@ from hashlib import sha1
 import hmac
 
 import datetime
+
+class DoesNotCompute(Exception):
+    """ Easy to understand naming conventions work best! """
+    pass
 
 """
 Dzieli zdanie po spacjach, zwraca liste slow.
@@ -34,8 +41,24 @@ def sanitizer(text):
 
 	return text	
 
-def java(text):
-	pass
+def java(wordList):
+
+	suggDict = {}
+	for word in wordList:
+		try:
+			r = requests.get('http://localhost:8081', params = {'text': word, 'language':'pl-PL'})
+			root = ET.fromstring(r.content)
+			for error in root.findall('error'):
+				if error.get('locqualityissuetype') == 'misspelling':
+					misspell = error.get('context')
+					suggestions = error.get('replacements').split('#')
+					suggDict[misspell] = [x for x in suggestions]
+		except:
+			raise Resolver404
+
+
+	return suggDict
+
 
 """
 Glowna funkcja sprawdzania poprawnosci zdan. Przyjmuje liste slow, zwraca slownik z sugestiami w postaci:
@@ -64,8 +87,8 @@ Przyjmuje nazwe silnika oraz liste slow.
 """
 def spellcheckHandler(engine, wordList):
 
-	if engine == 'google':
-		return google(wordList)
+	if engine == 'java':
+		return java(wordList)
 
 	elif engine == 'enchant':
 		return pyenchant(wordList)
@@ -89,10 +112,22 @@ def logger(user, words_quantity):
 	return
 
 """
-Funkcja autoryzujaca.
-"""
-def authorize(url, user, apikey_supplied, signature):
+Funkcja uwierzytelniajaca. Przyjmuje url zapytania, nazwe uzytkownika, dostarczony klucz API oraz sygnature zapytania.
 
+Proces podpisywania zapytania wyglada nastepujaco:
+
+1. URL zapytania wraz ze wszystkimi parametrami nalezy pozbawic dopisku okreslajacego nazwe aplikacji oraz poczatkowego ukosnika, przykladowa forma:
+	check/?text=Rzo%C5%82nie%C5%BCe+nie+lubiom+siedzie%C4%87+w+koszarah&engine=enchant&user=mariusz&key=TVSUZIANFTYKYDM
+
+	Nalezy pamietac o prawidlowym kodowaniu! Kodowanie znakow specjalnych UTF-8, adres po standardowym zakodowaniu znakow do ASCII, wraz z kodowaniem
+	znaku " ' " (%27).
+
+2. Ten adres nalezy zaszyfrowac algorytmem HMAC-SHA1, uzywajac do tego wygenerowanego klucza prywatnego uzytkownika ('secret').
+3. Sygnature nalezy umiescic w naglowku HTTP 'Authorization'.
+
+Serwer wykonuje powyzszy proces w ten sam sposob, obliczone sygnatury musza sie zgadzac.
+"""
+def authenticate_request(url, user, apikey_supplied, signature):
 	try:
 		userobject = ApiUsers.objects.get(name=user)
 		apikey = userobject.APIKey

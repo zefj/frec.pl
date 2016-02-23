@@ -21,4 +21,7 @@ from blendy import views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^check/$', views.checkSpelling, name='checkSpelling'),
+    url(r'^check_int/$', views.checkSpelling_int, name='checkSpelling_int'),
+    url(r'^login/$', views.user_login, name='login'),
+    url(r'^logout/$', views.user_logout, name='logout'),
 ]

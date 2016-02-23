@@ -1,5 +1,6 @@
 import os
 import sys 
+from django.core.urlresolvers import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
@@ -23,6 +24,8 @@ PROJECT_APPS = [
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
+
+LOGIN_URL = reverse_lazy('blendy:login')
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 

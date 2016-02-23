@@ -28,23 +28,20 @@ Blendy
 <div class="blendy">
 	<!-- <div class="container-fluid" id="projects"> -->
 		<div class="row">
-			<form method="POST" id="post-form">
-				{% csrf_token %}
-
+			<form id="post-form">
 				<div class="col-lg-6 col-md-6 col-xs-12">
 					<label value="text">Text to check</label><br>
 					<textarea id="text" name="text" style="width: 100%; height: 300px; text-align: top;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 				</div>
 
 				<div class="col-lg-6 col-md-6 col-xs-12">
-					<label value="user">User</label><br>
-					<input type="text" id="user" name="user" value=""><br><br>
 					<label value="check type">Spell check engine</label><br>
 					<input type="radio" name="engine" value="java"> languagetool.org<br>
 					<input type="radio" name="engine" value="enchant"> Enchant
 					<br><br>
 
 					<input type="submit" id="textareaButton" value="Check!" class="btn btn-xs btn-default">
+					<br><br><a href="{% url 'blendy:logout' %}">Wyloguj się</a>
 
 				</div>
 
