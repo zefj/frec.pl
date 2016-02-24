@@ -100,21 +100,21 @@ $(document).ready(function(){
                 var orig_term = term;
                 var textNodes = $(element).contents().filter(function() { return this.nodeType === 3 });
 
-                for (var i = 0, len = term.length; i < len; i++) {
+        /// FIX: IF LITERA IN KEYWORD
 
+                for (var i = 0, len = term.length; i < len; i++) {
                     var c = term.charAt(i);
                     c_temp = c.toLowerCase();
                     if (character_table[c_temp] != undefined) {
                         c = c.toLowerCase();
                         regex = new RegExp(c, "gi");
                         term = term.replace(regex, character_table[c])
-
                     }
-                    
                 }
 
                 textNodes.each(function() {
                     var content = $(this).text();
+                    console.log(content)
                     content = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
                     for (var i = 0, len = content.length; i < len; i++) {
