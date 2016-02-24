@@ -7,10 +7,20 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 
 from blendy import utils
 from blendy.models import ApiUser
 from functools import wraps
+
+def api_permission_required(view):
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+        if not hasattr(request.user, 'apiuser'):
+            messages.error(request, 'Nie masz uprawnień do tej usługi.')
+            return HttpResponseRedirect(reverse('blendy:login'))
+        return view(request, *args, **kwargs)
+    return wrapper
 
 def ajax_login_required(view):
     @wraps(view)
@@ -29,8 +39,8 @@ def user_login(request, template_name='blendy/login.html'):
             login(request, user)
             return HttpResponseRedirect(reverse('blendy:home'))
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Wprowadzono błędne dane.")
+            messages.error(request, 'Wprowadzono błędne dane.')
+            return HttpResponseRedirect(reverse('blendy:login'))
     else:
         return render(request, template_name, {})
 
@@ -39,7 +49,7 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('blendy:home'))
 
-@login_required
+@api_permission_required
 def home(request, template_name='blendy/home.html'):
     context_dict = {}
     return render(request, template_name, context_dict)
@@ -106,10 +116,6 @@ Z uslugi korzystac moga tylko uzytkownicy zalogowani w systemie.
 Wymagane parametry:
 	text - tekst do sprawdzenia poprawnosci ortograficznej,
 	engine - silnik {enchant, java},
-
-Przykladowy URL dla zdania "Rzołnieże nie lubiom siedzieć w koszarah": 
-
-check_int/?text=Rzo%C5%82nie%C5%BCe+nie+lubiom+siedzie%C4%87+w+koszarah&engine=enchant&user=mariusz&key=TVSUZIANFTYKYDM
 
 Widok zwraca odpowiedz w formacie JSON, blad 403 (Forbidden) lub 400 (Bad Request). W przypadku sukcesu odpowiedz zawiera:
 	query - przeslany tekst do sprawdzenia,

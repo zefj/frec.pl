@@ -25,7 +25,7 @@ class ApiUserGroup(models.Model):
 
 class ApiUser(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="apiuser")
     secret = models.CharField('Secret', blank = True, null = True, max_length = 30)
     group = models.ForeignKey(ApiUserGroup, on_delete=models.CASCADE)
 
