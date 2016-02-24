@@ -22,15 +22,6 @@ $(document).ready(function(){
                 replacementsObject = result.replacements;
                 console.log(result)
                 highlight_words(replacementsObject, '.results p')
-
-                // $.each(errors, function(key, value){
-                //     if (replacementsObject[value] != 0) {
-                //         highlight_words(value, '.results p', 'highlight')
-                //     }
-                //     else {
-                //         highlight_words(value, '.results p', 'underline')
-                //     }
-                // });
             },
             error: function(result) {
                 var err = result['status']+' '+result['statusText']
@@ -91,10 +82,7 @@ var character_table = {
                 }
 
                 // Regex Word Boundaries do not work with special characters. Need a hack for exact match to work.
-                console.log(term)
-
                 var parsedTerm = replace_special_characters(term)
-                // var parsedContent = replace_special_characters(content)
                 var regex = new RegExp('\\b'+parsedTerm+'\\b', 'g')
 
                 if (action == 'highlight'){
@@ -103,9 +91,6 @@ var character_table = {
                 else if (action == 'underline'){
                     parsedContent = parsedContent.replace(regex, '<span id="'+ parsedTerm +'" class="underline">' + parsedTerm + '</span>');
                 }
-
-
-                // });
             });
 
             content = undo_character_replacement(parsedContent)
