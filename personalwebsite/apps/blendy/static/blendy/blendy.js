@@ -21,17 +21,19 @@ $(document).ready(function(){
                 errors = Object.keys(result.replacements)
                 replacementsObject = result.replacements;
                 console.log(result)
-                $.each(errors, function(key, value){
-                    if (replacementsObject[value] != 0) {
-                        highlight_words(value, '.results p', 'highlight')
-                    }
-                    else {
-                        highlight_words(value, '.results p', 'underline')
-                    }
-                });
+                highlight_words(replacementsObject, '.results p')
+
+                // $.each(errors, function(key, value){
+                //     if (replacementsObject[value] != 0) {
+                //         highlight_words(value, '.results p', 'highlight')
+                //     }
+                //     else {
+                //         highlight_words(value, '.results p', 'underline')
+                //     }
+                // });
             },
             error: function(result) {
-                errorMsg = result['status']+' '+result['statusText']
+                errorMsg = result['value']
                 $('.results p').text(errorMsg);
             },
         });
@@ -71,36 +73,44 @@ var character_table = {
     'Ń':'CHARNDashCHAR',        
 }
 
-    function highlight_words(keywords, element, action) {
+    function highlight_words(keywords, element) {
         if(keywords) {
-            var textNodes;
-            var str = keywords.split(" ");
-            $(str).each(function() {
-                var term = this;
-                var textNodes = $(element).contents().filter(function() { return this.nodeType === 3 });
 
-                textNodes.each(function() {
+            var textNodes = $(element).contents().filter(function() { return this.nodeType === 3 });
+            var content = textNodes.text();
+            content = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            var parsedContent = replace_special_characters(content)
 
-                    var content = $(this).text();
-                    content = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            $.each(keywords, function(key, value) {
+                var term = key
+                if (keywords[key] != 0) {
+                    var action = 'highlight'
+                }
+                else {
+                    var action = 'underline'
+                }
 
-                    // Regex Word Boundaries do not work with special characters. Need a hack for exact match to work.
-                    var parsedTerm = replace_special_characters(term)
-                    var parsedContent = replace_special_characters(content)
-                    var regex = new RegExp('\\b'+parsedTerm+'\\b', 'g')
+                // Regex Word Boundaries do not work with special characters. Need a hack for exact match to work.
+                console.log(term)
 
-                    if (action == 'highlight'){
-                        content = parsedContent.replace(regex, '<span id="'+ parsedTerm +'" class="highlight">' + parsedTerm + '</span>');                       
-                    }
-                    else if (action == 'underline'){
-                        content = parsedContent.replace(regex, '<span id="'+ parsedTerm +'" class="underline">' + parsedTerm + '</span>');
-                    }
+                var parsedTerm = replace_special_characters(term)
+                // var parsedContent = replace_special_characters(content)
+                var regex = new RegExp('\\b'+parsedTerm+'\\b', 'g')
 
-                    content = undo_character_replacement(content)
-                    $(this).replaceWith(content);
+                if (action == 'highlight'){
+                    parsedContent = parsedContent.replace(regex, '<span id="'+ parsedTerm +'" class="highlight">' + parsedTerm + '</span>');                       
+                }
+                else if (action == 'underline'){
+                    parsedContent = parsedContent.replace(regex, '<span id="'+ parsedTerm +'" class="underline">' + parsedTerm + '</span>');
+                }
 
-                });
+
+                // });
             });
+
+            content = undo_character_replacement(parsedContent)
+            content = '<p>'+content+'</p>'
+            $('.results p').replaceWith(content);
         }
     }
 

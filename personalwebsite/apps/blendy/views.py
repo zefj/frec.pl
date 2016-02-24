@@ -8,9 +8,9 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-
 from blendy import utils
 from blendy.models import ApiUser
+
 from functools import wraps
 
 def api_permission_required(view):
@@ -106,7 +106,8 @@ def checkSpelling(request):
 		else:
 			return HttpResponseForbidden()
 	else:
-		return HttpResponseForbidden()
+		return HttpResponseBadRequest()
+
 
 """
 Widok uslugi sprawdzania poprawnosci ortograficznej dla zastosowan wewnetrznych. Widok odpowiada na zapytania metodami GET.
@@ -145,4 +146,4 @@ def checkSpelling_int(request):
 		else:
 			return HttpResponseForbidden()
 	else:
-		return HttpResponseForbidden()
+		return HttpResponseBadRequest()
