@@ -33,8 +33,8 @@ $(document).ready(function(){
                 // });
             },
             error: function(result) {
-                errorMsg = result['value']
-                $('.results p').text(errorMsg);
+                var err = result['status']+' '+result['statusText']
+                $('.results p').text(err);
             },
         });
     });

@@ -14,7 +14,7 @@ margin-left: 10px;
 {% endblock %}
 
 {% block page_content %}
-
+<div class="col-sm-5">
 <div class="page-header">
 <h1>Logowanie</h1>
 </div>
@@ -28,12 +28,12 @@ margin-left: 10px;
 
 <form id="login_form" method="post" action="{% url 'blendy:login' %}">
     {% csrf_token %}
-    Login: <br><input type="text" name="username" value="" size="50" />
+    Login: <br><input type="text" name="username" value="" style="width:100%"/>
     <br>
-    Hasło: <br><input type="password" name="password" value="" size="50" />
+    Hasło: <br><input type="password" name="password" value="" style="width:100%"/>
     <br><br>
 
     <input type="submit" class="btn btn-success" value="Zaloguj" /> 
 </form>
-
+</div>
 {% endblock %}
